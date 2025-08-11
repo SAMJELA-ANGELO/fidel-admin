@@ -88,7 +88,7 @@
                 ></path>
               </svg>
               <span class="nav-text">Products</span>
-              <span class="nav-badge">12</span>
+              <span class="nav-badge">{{ productCount }}</span>
             </router-link>
           </li>
 
@@ -131,7 +131,7 @@
                 ></path>
               </svg>
               <span class="nav-text">Orders</span>
-              <span class="nav-badge new">3</span>
+              <span class="nav-badge new">{{ orderCount }}</span>
             </router-link>
           </li>
 
@@ -159,79 +159,6 @@
           </li>
         </ul>
       </div>
-
-      <div class="nav-section">
-        <h3 class="nav-section-title">Analytics</h3>
-        <ul class="nav-list">
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <svg
-                class="nav-icon"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                ></path>
-              </svg>
-              <span class="nav-text">Analytics</span>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <svg
-                class="nav-icon"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                ></path>
-              </svg>
-              <span class="nav-text">Reports</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="nav-section">
-        <h3 class="nav-section-title">Settings</h3>
-        <ul class="nav-list">
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <svg
-                class="nav-icon"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                ></path>
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                ></path>
-              </svg>
-              <span class="nav-text">Settings</span>
-            </a>
-          </li>
-        </ul>
-      </div>
     </div>
 
     <div class="sidebar-footer">
@@ -256,8 +183,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { getProducts, getOrders } from "../api";
 
 export default defineComponent({
   name: "AdminSidebar",
@@ -269,13 +197,40 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
+    const productCount = ref(0);
+    const orderCount = ref(0);
+
+    const fetchCounts = async () => {
+      try {
+        const [productsResponse, ordersResponse] = await Promise.all([
+          getProducts(),
+          getOrders(),
+        ]);
+
+        productCount.value = productsResponse.data.length;
+        orderCount.value = ordersResponse.data.length;
+      } catch (error) {
+        console.error("Error fetching counts:", error);
+        // Set fallback values if API fails
+        productCount.value = 0;
+        orderCount.value = 0;
+      }
+    };
 
     const logout = () => {
       localStorage.removeItem("admin_token");
       router.push("/login");
     };
 
-    return { logout };
+    onMounted(() => {
+      fetchCounts();
+    });
+
+    return {
+      logout,
+      productCount,
+      orderCount,
+    };
   },
 });
 </script>

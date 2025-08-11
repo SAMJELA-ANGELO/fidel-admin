@@ -1,8 +1,9 @@
 <template>
   <div class="login-container">
-    <div class="login-card">
-      <div class="login-header">
-        <div class="login-logo">
+    <!-- Left side - Branding -->
+    <div class="brand-section">
+      <div class="brand-content">
+        <div class="brand-logo">
           <svg
             class="logo-icon"
             fill="none"
@@ -16,116 +17,178 @@
               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
             ></path>
           </svg>
+          <span class="brand-name">Fidel</span>
         </div>
-        <h1 class="login-title">Welcome Back</h1>
-        <p class="login-subtitle">Sign in to your Fidel admin account</p>
-      </div>
-
-      <form @submit.prevent="handleLogin" class="login-form">
-        <div class="form-group">
-          <label for="username" class="form-label">Email Address</label>
-          <div class="input-wrapper">
-            <svg
-              class="input-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-              ></path>
-            </svg>
-            <input
-              id="username"
-              v-model="username"
-              type="email"
-              class="form-input"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="password" class="form-label">Password</label>
-          <div class="input-wrapper">
-            <svg
-              class="input-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              ></path>
-            </svg>
-            <input
-              id="password"
-              v-model="password"
-              type="password"
-              class="form-input"
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-        </div>
-
-        <div class="form-options">
-          <label class="checkbox-wrapper">
-            <input type="checkbox" class="checkbox" />
-            <span class="checkmark"></span>
-            Remember me
-          </label>
-          <a href="#" class="forgot-password">Forgot password?</a>
-        </div>
-
-        <button type="submit" class="login-btn" :disabled="loading">
-          <svg
-            v-if="loading"
-            class="loading-icon"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-            ></path>
-          </svg>
-          {{ loading ? "Signing in..." : "Sign In" }}
-        </button>
-
-        <div v-if="error" class="error-message">
-          <svg
-            class="error-icon"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            ></path>
-          </svg>
-          {{ error }}
-        </div>
-      </form>
-
-      <div class="login-footer">
-        <p class="footer-text">
-          Don't have an account?
-          <a href="#" class="footer-link">Contact support</a>
+        <h1 class="brand-title">Admin Portal</h1>
+        <p class="brand-subtitle">
+          Manage your business operations with ease and efficiency
         </p>
+        <div class="brand-features">
+          <div class="feature-item">
+            <svg
+              class="feature-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <span>Product Management</span>
+          </div>
+          <div class="feature-item">
+            <svg
+              class="feature-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <span>Order Tracking</span>
+          </div>
+          <div class="feature-item">
+            <svg
+              class="feature-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            <span>Analytics Dashboard</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side - Login Form -->
+    <div class="login-section">
+      <div class="login-content">
+        <div class="login-header">
+          <h2 class="login-title">Welcome Back</h2>
+          <p class="login-subtitle">Sign in to continue to your dashboard</p>
+        </div>
+
+        <form @submit.prevent="handleLogin" class="login-form">
+          <div class="form-group">
+            <label for="username" class="form-label">Email Address</label>
+            <div class="input-wrapper">
+              <svg
+                class="input-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                ></path>
+              </svg>
+              <input
+                id="username"
+                v-model="username"
+                type="email"
+                class="form-input"
+                placeholder="Enter your email address"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-wrapper">
+              <svg
+                class="input-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                ></path>
+              </svg>
+              <input
+                id="password"
+                v-model="password"
+                type="password"
+                class="form-input"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="checkbox-wrapper">
+              <input type="checkbox" class="checkbox" />
+              <span class="checkmark"></span>
+              Remember me
+            </label>
+            <a href="#" class="forgot-password">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="login-btn" :disabled="loading">
+            <svg
+              v-if="loading"
+              class="loading-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              ></path>
+            </svg>
+            {{ loading ? "Signing in..." : "Sign In" }}
+          </button>
+
+          <div v-if="error" class="error-message">
+            <svg
+              class="error-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            {{ error }}
+          </div>
+        </form>
+
+        <div class="login-footer">
+          <p class="footer-text">
+            Need help? <a href="#" class="footer-link">Contact support</a>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -154,7 +217,7 @@ export default defineComponent({
           password.value === "$bado1010"
         ) {
           localStorage.setItem("admin_token", "mock_token");
-          router.push("/");
+          router.push("/dashboard");
         } else {
           error.value = "Invalid email or password. Please try again.";
         }
@@ -171,47 +234,117 @@ export default defineComponent({
 .login-container {
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #ffffff;
 }
 
-.login-card {
+/* Left side - Branding */
+.brand-section {
+  flex: 1;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.3;
+}
+
+.brand-content {
+  text-align: center;
+  color: white;
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.logo-icon {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.brand-name {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.brand-title {
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.brand-subtitle {
+  font-size: 1.125rem;
+  margin: 0 0 3rem 0;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.brand-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.feature-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Right side - Login Form */
+.login-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background: #fafbfc;
+}
+
+.login-content {
   width: 100%;
   max-width: 400px;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  overflow: hidden;
 }
 
 .login-header {
   text-align: center;
-  padding: 2rem 2rem 1.5rem;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-}
-
-.login-logo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  border-radius: 16px;
-  color: white;
-  margin-bottom: 1rem;
-}
-
-.logo-icon {
-  width: 32px;
-  height: 32px;
+  margin-bottom: 2.5rem;
 }
 
 .login-title {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #1e293b;
   margin: 0 0 0.5rem 0;
@@ -219,12 +352,12 @@ export default defineComponent({
 
 .login-subtitle {
   color: #64748b;
-  font-size: 0.875rem;
+  font-size: 1rem;
   margin: 0;
 }
 
 .login-form {
-  padding: 2rem;
+  margin-bottom: 2rem;
 }
 
 .form-group {
@@ -234,7 +367,7 @@ export default defineComponent({
 .form-label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #374151;
   font-size: 0.875rem;
 }
@@ -245,30 +378,31 @@ export default defineComponent({
 
 .input-icon {
   position: absolute;
-  left: 0.75rem;
+  left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   color: #9ca3af;
   pointer-events: none;
 }
 
 .form-input {
   width: 100%;
-  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 0.875rem;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
   transition: all 0.2s ease;
-  background: #f9fafb;
+  background: white;
+  color: #1e293b;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
   background: white;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .form-input::placeholder {
@@ -279,7 +413,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   font-size: 0.875rem;
 }
 
@@ -296,8 +430,8 @@ export default defineComponent({
 }
 
 .checkmark {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border: 2px solid #d1d5db;
   border-radius: 4px;
   position: relative;
@@ -305,53 +439,54 @@ export default defineComponent({
 }
 
 .checkbox:checked + .checkmark {
-  background: #3b82f6;
-  border-color: #3b82f6;
+  background: #667eea;
+  border-color: #667eea;
 }
 
 .checkbox:checked + .checkmark::after {
   content: "";
   position: absolute;
-  left: 4px;
-  top: 1px;
-  width: 4px;
-  height: 8px;
+  left: 5px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
 
 .forgot-password {
-  color: #3b82f6;
+  color: #667eea;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   transition: color 0.2s ease;
 }
 
 .forgot-password:hover {
-  color: #1d4ed8;
+  color: #5a67d8;
 }
 
 .login-btn {
   width: 100%;
-  padding: 0.875rem;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 0.875rem;
+  border-radius: 12px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  box-shadow: 0 4px 14px rgba(102, 126, 234, 0.3);
 }
 
 .login-btn:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 .login-btn:disabled {
@@ -361,8 +496,8 @@ export default defineComponent({
 }
 
 .loading-icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   animation: spin 1s linear infinite;
 }
 
@@ -380,25 +515,24 @@ export default defineComponent({
   align-items: center;
   gap: 0.5rem;
   margin-top: 1rem;
-  padding: 0.75rem;
+  padding: 1rem;
   background: #fef2f2;
   border: 1px solid #fecaca;
-  border-radius: 8px;
+  border-radius: 12px;
   color: #dc2626;
   font-size: 0.875rem;
 }
 
 .error-icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
 }
 
 .login-footer {
-  padding: 1.5rem 2rem 2rem;
   text-align: center;
-  border-top: 1px solid #e5e7eb;
-  background: #f9fafb;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e8f0;
 }
 
 .footer-text {
@@ -408,40 +542,66 @@ export default defineComponent({
 }
 
 .footer-link {
-  color: #3b82f6;
+  color: #667eea;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
   transition: color 0.2s ease;
 }
 
 .footer-link:hover {
-  color: #1d4ed8;
+  color: #5a67d8;
 }
 
 /* Mobile responsive */
-@media (max-width: 480px) {
+@media (max-width: 1024px) {
   .login-container {
-    padding: 0.5rem;
+    flex-direction: column;
   }
 
-  .login-card {
-    border-radius: 12px;
+  .brand-section {
+    padding: 2rem 1.5rem;
+    min-height: 40vh;
   }
 
-  .login-header {
-    padding: 1.5rem 1.5rem 1rem;
+  .brand-title {
+    font-size: 2.5rem;
   }
 
-  .login-form {
-    padding: 1.5rem;
+  .login-section {
+    padding: 2rem 1.5rem;
+    min-height: 60vh;
+  }
+}
+
+@media (max-width: 640px) {
+  .brand-section {
+    padding: 1.5rem 1rem;
+    min-height: 35vh;
   }
 
-  .login-footer {
-    padding: 1rem 1.5rem 1.5rem;
+  .brand-title {
+    font-size: 2rem;
+  }
+
+  .brand-subtitle {
+    font-size: 1rem;
+  }
+
+  .login-section {
+    padding: 1.5rem 1rem;
+    min-height: 65vh;
   }
 
   .login-title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
+  }
+
+  .form-input {
+    padding: 0.875rem 0.875rem 0.875rem 2.75rem;
+  }
+
+  .input-icon {
+    left: 0.875rem;
   }
 }
 </style>

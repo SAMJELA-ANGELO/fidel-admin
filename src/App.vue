@@ -1,18 +1,20 @@
 <template>
   <div id="app-layout">
-    <AdminTopbar @toggle-sidebar="toggleSidebar" />
+    <template v-if="!isLoginPage">
+      <AdminTopbar @toggle-sidebar="toggleSidebar" />
 
-    <!-- Mobile backdrop -->
-    <transition name="backdrop-fade">
-      <div
-        v-if="sidebarOpen && isMobile"
-        class="sidebar-backdrop"
-        @click="closeSidebar"
-      ></div>
-    </transition>
+      <!-- Mobile backdrop -->
+      <transition name="backdrop-fade">
+        <div
+          v-if="sidebarOpen && isMobile"
+          class="sidebar-backdrop"
+          @click="closeSidebar"
+        ></div>
+      </transition>
 
-    <!-- Sidebar -->
-    <AdminSidebar :isOpen="sidebarOpen" @close="closeSidebar" />
+      <!-- Sidebar -->
+      <AdminSidebar :isOpen="sidebarOpen" @close="closeSidebar" />
+    </template>
 
     <!-- Main content -->
     <main class="main-content" :class="{ 'sidebar-open': sidebarOpen }">
@@ -24,7 +26,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from "vue";
+import { defineComponent, ref, onMounted, onUnmounted, computed } from "vue";
+import { useRoute } from "vue-router";
 import AdminTopbar from "./components/Topbar.vue";
 import AdminSidebar from "./components/Sidebar.vue";
 
@@ -32,8 +35,12 @@ export default defineComponent({
   name: "App",
   components: { AdminTopbar, AdminSidebar },
   setup() {
+    const route = useRoute();
     const sidebarOpen = ref(true); // Default to open on desktop
     const isMobile = ref(false);
+
+    // Hide Topbar/Sidebar on login page (now at '/')
+    const isLoginPage = computed(() => route.path === "/");
 
     const checkScreenSize = () => {
       isMobile.value = window.innerWidth < 768;
@@ -69,6 +76,7 @@ export default defineComponent({
       isMobile,
       toggleSidebar,
       closeSidebar,
+      isLoginPage,
     };
   },
 });

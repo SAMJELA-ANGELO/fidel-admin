@@ -42,9 +42,8 @@
             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           ></path>
         </svg>
-        <input
+        <InputText
           v-model="searchQuery"
-          type="text"
           placeholder="Search products..."
           class="search-input"
         />
@@ -134,31 +133,29 @@
 
     <!-- Products Grid -->
     <div v-else class="products-grid">
-      <div
+      <router-link
         v-for="product in filteredProducts"
         :key="product._id"
+        :to="`/products/${product._id}`"
         class="product-card"
+        style="
+          text-decoration: none;
+          color: inherit;
+          display: block;
+          height: 100%;
+        "
       >
         <div class="product-image">
           <div
-            v-if="
-              (product.images && product.images.length > 0) || product.imageUrl
-            "
+            v-if="product.images && product.images.length > 0"
             class="product-gallery"
           >
             <img
-              :src="
-                product.images && product.images.length > 0
-                  ? product.images[0]
-                  : product.imageUrl
-              "
+              :src="product.images[0]"
               :alt="product.name"
               class="product-img main-image"
             />
-            <div
-              v-if="product.images && product.images.length > 1"
-              class="image-indicators"
-            >
+            <div v-if="product.images.length > 1" class="image-indicators">
               <span class="indicator-dot active"></span>
               <span
                 v-for="(image, index) in product.images.slice(1)"
@@ -178,30 +175,7 @@
               ></path>
             </svg>
           </div>
-          <div class="product-actions">
-            <button class="action-btn edit" title="Edit Product">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                ></path>
-              </svg>
-            </button>
-            <button class="action-btn delete" title="Delete Product">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                ></path>
-              </svg>
-            </button>
-          </div>
         </div>
-
         <div class="product-content">
           <div class="product-category">
             {{ product.category.name || "Uncategorized" }}
@@ -210,59 +184,9 @@
           <p class="product-description">{{ product.description }}</p>
           <div class="product-footer">
             <div class="product-price">${{ product.price }}</div>
-            <div class="product-actions">
-              <router-link
-                :to="`/products/${product._id}`"
-                class="action-btn view"
-                title="View Details"
-              >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  ></path>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  ></path>
-                </svg>
-              </router-link>
-              <router-link
-                :to="`/products/${product._id}/edit`"
-                class="action-btn edit"
-                title="Edit Product"
-              >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  ></path>
-                </svg>
-              </router-link>
-              <button
-                @click="deleteProduct(product._id)"
-                class="action-btn delete"
-                title="Delete Product"
-              >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  ></path>
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
 
     <!-- Results Count -->

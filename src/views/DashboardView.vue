@@ -9,7 +9,7 @@
         </p>
       </div>
       <div class="page-actions">
-        <button class="btn btn-primary">
+        <router-link to="/create-product" class="btn btn-primary">
           <svg
             class="btn-icon"
             fill="none"
@@ -24,7 +24,7 @@
             ></path>
           </svg>
           Add Product
-        </button>
+        </router-link>
       </div>
     </div>
 
@@ -42,50 +42,10 @@
           </svg>
         </div>
         <div class="stat-content">
-          <h3 class="stat-value">1,234</h3>
+          <h3 class="stat-value">{{ ordersCount }}</h3>
           <p class="stat-label">Total Orders</p>
-          <div class="stat-change positive">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              ></path>
-            </svg>
-            +12.5%
-          </div>
         </div>
       </div>
-
-      <div class="stat-card">
-        <div class="stat-icon revenue">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
-            ></path>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <h3 class="stat-value">$45,678</h3>
-          <p class="stat-label">Total Revenue</p>
-          <div class="stat-change positive">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              ></path>
-            </svg>
-            +8.2%
-          </div>
-        </div>
-      </div>
-
       <div class="stat-card">
         <div class="stat-icon products">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,47 +58,8 @@
           </svg>
         </div>
         <div class="stat-content">
-          <h3 class="stat-value">89</h3>
+          <h3 class="stat-value">{{ productsCount }}</h3>
           <p class="stat-label">Active Products</p>
-          <div class="stat-change neutral">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-              ></path>
-            </svg>
-            +0%
-          </div>
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon customers">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-            ></path>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <h3 class="stat-value">567</h3>
-          <p class="stat-label">Total Customers</p>
-          <div class="stat-change positive">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-              ></path>
-            </svg>
-            +15.3%
-          </div>
         </div>
       </div>
     </div>
@@ -153,21 +74,112 @@
         </div>
         <div class="card-content">
           <div class="order-list">
-            <div
-              class="order-item"
-              v-for="order in recentOrders"
-              :key="order.id"
-            >
-              <div class="order-info">
-                <div class="order-id">#{{ order.id }}</div>
-                <div class="order-customer">{{ order.customer }}</div>
-                <div class="order-date">{{ order.date }}</div>
+            <!-- Loading State -->
+            <div v-if="loading" class="loading-state">
+              <div class="loading-spinner">
+                <svg
+                  class="spinner"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  ></path>
+                </svg>
               </div>
-              <div class="order-status" :class="order.status">
-                {{ order.status }}
-              </div>
-              <div class="order-amount">${{ order.amount }}</div>
+              <p>Loading orders...</p>
             </div>
+
+            <!-- Empty State -->
+            <div v-else-if="recentOrders.length === 0" class="empty-orders">
+              <div class="empty-icon-wrapper">
+                <svg
+                  class="empty-icon"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                  ></path>
+                </svg>
+              </div>
+              <h4 class="empty-title">No Orders Yet</h4>
+              <p class="empty-message">
+                When customers place orders, they'll appear here
+              </p>
+              <div class="empty-actions">
+                <router-link
+                  to="/create-product"
+                  class="btn btn-primary btn-sm"
+                >
+                  <svg
+                    class="btn-icon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                    ></path>
+                  </svg>
+                  Add Your First Product
+                </router-link>
+              </div>
+            </div>
+
+            <!-- Orders List -->
+            <template v-else>
+              <div
+                class="order-item"
+                v-for="order in recentOrders"
+                :key="order._id"
+              >
+                <div class="order-info">
+                  <div class="order-id">#{{ order._id.slice(-6) }}</div>
+                  <div class="order-customer">
+                    {{ order.customerName || "Guest Customer" }}
+                  </div>
+                  <div class="order-date">
+                    {{ formatDate(order.createdAt) }}
+                  </div>
+                </div>
+                <div class="order-status" :class="order.status">
+                  {{ order.status }}
+                </div>
+                <div class="order-amount">${{ order.total }}</div>
+              </div>
+
+              <!-- View All Orders Link -->
+              <div class="view-all-orders">
+                <router-link to="/orders" class="view-all-link">
+                  View All Orders
+                  <svg
+                    class="arrow-icon"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    ></path>
+                  </svg>
+                </router-link>
+              </div>
+            </template>
           </div>
         </div>
       </div>
@@ -237,44 +249,56 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
+import { getProducts, getOrders } from "../api";
 
 export default defineComponent({
   name: "DashboardView",
   setup() {
-    const recentOrders = ref([
-      {
-        id: "ORD-001",
-        customer: "John Doe",
-        date: "2 hours ago",
-        status: "pending",
-        amount: "299.99",
-      },
-      {
-        id: "ORD-002",
-        customer: "Jane Smith",
-        date: "4 hours ago",
-        status: "completed",
-        amount: "149.50",
-      },
-      {
-        id: "ORD-003",
-        customer: "Mike Johnson",
-        date: "6 hours ago",
-        status: "processing",
-        amount: "89.99",
-      },
-      {
-        id: "ORD-004",
-        customer: "Sarah Wilson",
-        date: "1 day ago",
-        status: "completed",
-        amount: "199.99",
-      },
-    ]);
+    const ordersCount = ref(0);
+    const productsCount = ref(0);
+    const recentOrders = ref<any[]>([]);
+    const loading = ref(true);
+
+    const fetchStats = async () => {
+      try {
+        loading.value = true;
+        const [ordersRes, productsRes] = await Promise.all([
+          getOrders(),
+          getProducts(),
+        ]);
+        const orders = ordersRes.data;
+        const products = productsRes.data;
+        ordersCount.value = Array.isArray(orders) ? orders.length : 0;
+        productsCount.value = Array.isArray(products) ? products.length : 0;
+        // Show up to 4 most recent orders
+        recentOrders.value = Array.isArray(orders) ? orders.slice(0, 4) : [];
+      } catch (e) {
+        console.error("Error fetching dashboard data:", e);
+        ordersCount.value = 0;
+        productsCount.value = 0;
+        recentOrders.value = [];
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    const formatDate = (dateString: string) => {
+      return new Date(dateString).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    };
+
+    onMounted(fetchStats);
 
     return {
+      ordersCount,
+      productsCount,
       recentOrders,
+      loading,
+      formatDate,
     };
   },
 });
@@ -355,16 +379,8 @@ export default defineComponent({
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
 }
 
-.stat-icon.revenue {
-  background: linear-gradient(135deg, #10b981, #059669);
-}
-
 .stat-icon.products {
   background: linear-gradient(135deg, #f59e0b, #d97706);
-}
-
-.stat-icon.customers {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
 }
 
 .stat-icon svg {
@@ -387,32 +403,7 @@ export default defineComponent({
 .stat-label {
   color: #64748b;
   font-size: 0.875rem;
-  margin: 0 0 0.5rem 0;
-}
-
-.stat-change {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.stat-change.positive {
-  color: #059669;
-}
-
-.stat-change.negative {
-  color: #dc2626;
-}
-
-.stat-change.neutral {
-  color: #64748b;
-}
-
-.stat-change svg {
-  width: 12px;
-  height: 12px;
+  margin: 0;
 }
 
 /* Dashboard Grid */
@@ -461,6 +452,87 @@ export default defineComponent({
   padding: 1.5rem;
 }
 
+/* Loading State */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+  color: #64748b;
+}
+
+.loading-spinner {
+  margin-bottom: 1rem;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Empty Orders State */
+.empty-orders {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.empty-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: #f1f5f9;
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+}
+
+.empty-icon {
+  width: 40px;
+  height: 40px;
+  color: #94a3b8;
+}
+
+.empty-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #475569;
+  margin: 0 0 0.5rem 0;
+}
+
+.empty-message {
+  color: #64748b;
+  font-size: 0.875rem;
+  margin: 0 0 1.5rem 0;
+  max-width: 280px;
+  line-height: 1.5;
+}
+
+.empty-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
 /* Order List */
 .order-list {
   display: flex;
@@ -475,11 +547,15 @@ export default defineComponent({
   padding: 1rem;
   background: #f8fafc;
   border-radius: 8px;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
+  border: 1px solid #e2e8f0;
 }
 
 .order-item:hover {
   background: #f1f5f9;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .order-info {
@@ -528,10 +604,46 @@ export default defineComponent({
   color: #059669;
 }
 
+.order-status.cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
 .order-amount {
   font-weight: 600;
   color: #1e293b;
   font-size: 0.875rem;
+}
+
+/* View All Orders Link */
+.view-all-orders {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.view-all-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #3b82f6;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.75rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.view-all-link:hover {
+  background: #f0f9ff;
+  color: #1d4ed8;
+}
+
+.arrow-icon {
+  width: 16px;
+  height: 16px;
 }
 
 /* Quick Actions */
@@ -551,11 +663,14 @@ export default defineComponent({
   text-decoration: none;
   color: inherit;
   transition: all 0.2s ease;
+  border: 1px solid #e2e8f0;
 }
 
 .quick-action:hover {
   background: #f1f5f9;
   transform: translateX(4px);
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .action-icon {
@@ -603,7 +718,7 @@ export default defineComponent({
   }
 
   .stats-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .dashboard-grid {
@@ -614,6 +729,10 @@ export default defineComponent({
 @media (min-width: 1024px) {
   .page-title h1 {
     font-size: 2.25rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>

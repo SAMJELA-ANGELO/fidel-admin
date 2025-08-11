@@ -2,12 +2,12 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/login",
+    path: "/",
     name: "login",
     component: () => import("../views/LoginView.vue"),
   },
   {
-    path: "/",
+    path: "/dashboard",
     name: "dashboard",
     component: () => import("../views/DashboardView.vue"),
   },
@@ -64,16 +64,16 @@ const router = createRouter({
 
 // Route protection: require login for all routes except /login
 router.beforeEach((to, from, next) => {
-  const publicPages = ["/login"];
+  const publicPages = ["/"];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = !!localStorage.getItem("admin_token");
 
   if (authRequired && !loggedIn) {
-    return next("/login");
+    return next("/");
   }
 
-  if (to.path === "/login" && loggedIn) {
-    return next("/");
+  if (to.path === "/" && loggedIn) {
+    return next("/dashboard");
   }
 
   next();
