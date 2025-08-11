@@ -284,7 +284,12 @@
                 View
               </router-link>
               <button
-                @click="deleteOrder(order._id)"
+                @click="
+                  deleteOrder(
+                    order._id,
+                    `Order #${order._id.slice(-6).toUpperCase()}`
+                  )
+                "
                 class="action-btn delete"
                 title="Delete Order"
               >
@@ -309,20 +314,37 @@
       Showing {{ filteredOrders.length }} of {{ orders.length }} orders
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <DeleteConfirmModal
+    :show="showDeleteModal"
+    :item-name="deletingOrderNumber"
+    description="This will permanently remove the order from your system. All associated data will be lost."
+    :loading="false"
+    @close="closeDeleteModal"
+    @confirm="confirmDelete"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
 import { getOrders, deleteOrder } from "../api";
+import DeleteConfirmModal from "../components/DeleteConfirmModal.vue";
 
 export default defineComponent({
   name: "OrdersView",
+  components: {
+    DeleteConfirmModal,
+  },
   setup() {
     const orders = ref<any[]>([]);
     const loading = ref(true);
     const error = ref("");
     const searchQuery = ref("");
     const statusFilter = ref("");
+    const showDeleteModal = ref(false);
+    const deletingOrderId = ref<string | null>(null);
+    const deletingOrderNumber = ref("");
 
     const loadOrders = async () => {
       loading.value = true;
@@ -381,15 +403,30 @@ export default defineComponent({
       });
     };
 
-    const deleteOrderHandler = async (orderId: string) => {
-      if (!confirm("Are you sure you want to delete this order?")) return;
+    const deleteOrderHandler = async (orderId: string, orderNumber: string) => {
+      deletingOrderId.value = orderId;
+      deletingOrderNumber.value = orderNumber;
+      showDeleteModal.value = true;
+    };
+
+    const confirmDelete = async () => {
+      if (!deletingOrderId.value) return;
 
       try {
-        await deleteOrder(orderId);
+        await deleteOrder(deletingOrderId.value);
         await loadOrders();
+        showDeleteModal.value = false;
+        deletingOrderId.value = null;
+        deletingOrderNumber.value = "";
       } catch (err: any) {
         error.value = err?.response?.data?.message || "Failed to delete order.";
       }
+    };
+
+    const closeDeleteModal = () => {
+      showDeleteModal.value = false;
+      deletingOrderId.value = null;
+      deletingOrderNumber.value = "";
     };
 
     onMounted(loadOrders);
@@ -407,6 +444,10 @@ export default defineComponent({
       loadOrders,
       deleteOrder: deleteOrderHandler,
       formatDate,
+      showDeleteModal,
+      deletingOrderNumber,
+      confirmDelete,
+      closeDeleteModal,
     };
   },
 });

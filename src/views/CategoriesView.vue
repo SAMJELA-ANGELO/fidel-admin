@@ -141,7 +141,7 @@
               </svg>
             </button>
             <button
-              @click="deleteCategory(category._id)"
+              @click="deleteCategoryHandler(category._id, category.name)"
               class="action-btn delete"
               title="Delete Category"
             >
@@ -264,8 +264,139 @@
         </form>
       </div>
     </div>
+    <!-- Delete Confirmation Modal -->
+    <div v-if="showDeleteModal" class="modal-overlay" @click="closeDeleteModal">
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <h3 class="modal-title">Confirm Delete</h3>
+          <button @click="closeDeleteModal" class="close-button">×</button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Are you sure you want to delete
+            <strong>{{ deletingCategoryName }}</strong
+            >?
+          </p>
+          <p>
+            This will permanently remove the category. Products in this category
+            will become uncategorized.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button @click="closeDeleteModal" class="btn btn-secondary">
+            Cancel
+          </button>
+          <button @click="confirmDelete" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
+<style scoped>
+/* Inline Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #64748b;
+  padding: 0.25rem;
+}
+
+.close-button:hover {
+  color: #1e293b;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-body p {
+  margin: 0 0 1rem 0;
+  color: #1e293b;
+  line-height: 1.5;
+}
+
+.modal-body p:last-child {
+  margin-bottom: 0;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+</style>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
@@ -285,8 +416,11 @@ export default defineComponent({
     const searchQuery = ref("");
     const showCreateModal = ref(false);
     const showEditModal = ref(false);
+    const showDeleteModal = ref(false);
     const submitting = ref(false);
     const editingCategory = ref<any>(null);
+    const deletingCategoryId = ref<string | null>(null);
+    const deletingCategoryName = ref("");
 
     const form = ref({
       name: "",
@@ -372,16 +506,34 @@ export default defineComponent({
       }
     };
 
-    const deleteCategoryHandler = async (categoryId: string) => {
-      if (!confirm("Are you sure you want to delete this category?")) return;
+    const deleteCategoryHandler = async (
+      categoryId: string,
+      categoryName: string
+    ) => {
+      deletingCategoryId.value = categoryId;
+      deletingCategoryName.value = categoryName;
+      showDeleteModal.value = true;
+    };
+
+    const confirmDelete = async () => {
+      if (!deletingCategoryId.value) return;
 
       try {
-        await deleteCategory(categoryId);
+        await deleteCategory(deletingCategoryId.value);
         await loadCategories();
+        showDeleteModal.value = false;
+        deletingCategoryId.value = null;
+        deletingCategoryName.value = "";
       } catch (err: any) {
         error.value =
           err?.response?.data?.message || "Failed to delete category.";
       }
+    };
+
+    const closeDeleteModal = () => {
+      showDeleteModal.value = false;
+      deletingCategoryId.value = null;
+      deletingCategoryName.value = "";
     };
 
     onMounted(loadCategories);
@@ -394,6 +546,7 @@ export default defineComponent({
       filteredCategories,
       showCreateModal,
       showEditModal,
+      showDeleteModal,
       submitting,
       form,
       loadCategories,
@@ -401,7 +554,10 @@ export default defineComponent({
       closeModal,
       editCategory,
       handleSubmit,
-      deleteCategory: deleteCategoryHandler,
+      deleteCategoryHandler,
+      deletingCategoryName,
+      confirmDelete,
+      closeDeleteModal,
     };
   },
 });

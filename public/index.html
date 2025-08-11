@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <!-- SEO Meta Tags -->
+    
+    <!-- Enhanced SEO Meta Tags -->
     <meta name="description" content="Fidel Admin Portal - Professional e-commerce management dashboard. Manage products, orders, categories, and analytics with our modern Vue.js admin interface.">
     <meta name="keywords" content="admin dashboard, ecommerce management, vue.js admin, product management, order management, inventory system, fidel admin, store management, business dashboard">
     <meta name="author" content="Fidel Team">
@@ -15,24 +16,24 @@
     <meta name="rating" content="general">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://yourdomain.com/">
+    <link rel="canonical" href="https://fidel-admin.netlify.app/">
     
-    <!-- Open Graph / Facebook -->
+    <!-- Enhanced Open Graph / Facebook -->
     <meta property="og:title" content="Fidel Admin Portal - E-commerce Management Dashboard">
     <meta property="og:description" content="Professional e-commerce management dashboard. Manage products, orders, categories, and analytics with our modern Vue.js admin interface.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://yourdomain.com/">
-    <meta property="og:image" content="https://yourdomain.com/logo.png">
+    <meta property="og:url" content="https://fidel-admin.netlify.app/">
+    <meta property="og:image" content="https://fidel-admin.netlify.app/logo.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Fidel Admin Portal">
     <meta property="og:locale" content="en_US">
     
-    <!-- Twitter Card -->
+    <!-- Enhanced Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Fidel Admin Portal - E-commerce Management Dashboard">
     <meta name="twitter:description" content="Professional e-commerce management dashboard. Manage products, orders, categories, and analytics with our modern Vue.js admin interface.">
-    <meta name="twitter:image" content="https://yourdomain.com/logo.png">
+    <meta name="twitter:image" content="https://fidel-admin.netlify.app/logo.png">
     <meta name="twitter:site" content="@fidelteam">
     <meta name="twitter:creator" content="@fidelteam">
     
@@ -50,6 +51,24 @@
     <!-- DNS Prefetch for API -->
     <link rel="dns-prefetch" href="https://fidel-of6u.onrender.com">
     
+    <!-- Resource hints for better performance -->
+    <link rel="preload" href="<%= BASE_URL %>logo.png" as="image" type="image/png">
+    <link rel="preload" href="<%= BASE_URL %>favicon.png" as="image" type="image/png">
+    
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="<%= BASE_URL %>css/app.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="<%= BASE_URL %>css/app.css"></noscript>
+    
+    <!-- Cache control headers for static assets -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    <meta http-equiv="Expires" content="31536000">
+    
+    <!-- Security headers for better SEO trust -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
     <!-- Structured Data / JSON-LD -->
     <script type="application/ld+json">
     {
@@ -57,7 +76,7 @@
       "@type": "WebApplication",
       "name": "Fidel Admin Portal",
       "description": "Professional e-commerce management dashboard for managing products, orders, and store operations.",
-      "url": "https://yourdomain.com/",
+      "url": "https://fidel-admin.netlify.app/",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web Browser",
       "offers": {
@@ -75,6 +94,7 @@
       }
     }
     </script>
+    
     <!-- Primary favicon -->
     <link rel="icon" href="<%= BASE_URL %>favicon.png?v=2" type="image/png" sizes="32x32">
     
@@ -87,6 +107,16 @@
     
     <!-- Windows Tile -->
     <meta name="msapplication-TileImage" content="<%= BASE_URL %>logo.png?v=2">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="<%= BASE_URL %>manifest.json">
+    
+    <!-- Mobile App Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Fidel Admin">
+    
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>

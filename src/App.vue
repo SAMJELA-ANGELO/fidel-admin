@@ -1,18 +1,5 @@
 <template>
   <div id="app-layout">
-    <Head>
-      <title>Fidel Admin Portal</title>
-      <meta
-        name="description"
-        content="Admin dashboard for Fidel. Manage products, orders, and more."
-      />
-      <meta property="og:title" content="Fidel Admin Portal" />
-      <meta
-        property="og:description"
-        content="Admin dashboard for Fidel. Manage products, orders, and more."
-      />
-      <meta property="og:type" content="website" />
-    </Head>
     <template v-if="!isLoginPage">
       <AdminTopbar @toggle-sidebar="toggleSidebar" />
 
@@ -43,6 +30,7 @@ import { defineComponent, ref, onMounted, onUnmounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import AdminTopbar from "./components/Topbar.vue";
 import AdminSidebar from "./components/Sidebar.vue";
+import { useSeo } from "./composables/useSeo";
 
 export default defineComponent({
   name: "App",
@@ -51,6 +39,9 @@ export default defineComponent({
     const route = useRoute();
     const sidebarOpen = ref(true); // Default to open on desktop
     const isMobile = ref(false);
+
+    // Initialize SEO management
+    useSeo();
 
     // Hide Topbar/Sidebar on login page (now at '/')
     const isLoginPage = computed(() => route.path === "/");

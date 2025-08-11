@@ -6,6 +6,7 @@ const API_BASE =
 export const getProducts = () => axios.get(`${API_BASE}/products`);
 export const getProduct = (id: string) =>
   axios.get(`${API_BASE}/products/${id}`);
+export const getProductCount = () => axios.get(`${API_BASE}/products/count`);
 export const createProduct = (data: FormData) =>
   axios.post(`${API_BASE}/products`, data, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -19,6 +20,7 @@ export const deleteProduct = (id: string) =>
 
 export const getOrders = () => axios.get(`${API_BASE}/orders`);
 export const getOrder = (id: string) => axios.get(`${API_BASE}/orders/${id}`);
+export const getOrderCount = () => axios.get(`${API_BASE}/orders/count`);
 export interface OrderUpdate {
   status?: string;
   total?: number;
@@ -34,6 +36,7 @@ export const deleteOrder = (id: string) =>
 export const getCategories = () => axios.get(`${API_BASE}/categories`);
 export const getCategory = (id: string) =>
   axios.get(`${API_BASE}/categories/${id}`);
+export const getCategoryCount = () => axios.get(`${API_BASE}/categories/count`);
 export const createCategory = (data: { name: string; description?: string }) =>
   axios.post(`${API_BASE}/categories`, data);
 export const updateCategory = (

@@ -85,15 +85,29 @@
       </div>
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <DeleteConfirmModal
+    :show="showDeleteModal"
+    :item-name="category?.name || 'Category'"
+    description="This will permanently remove the category. Products in this category will become uncategorized."
+    :loading="false"
+    @close="closeDeleteModal"
+    @confirm="confirmDelete"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getCategory, deleteCategory, getProducts } from "../api";
+import DeleteConfirmModal from "../components/DeleteConfirmModal.vue";
 
 export default defineComponent({
   name: "CategoryDetailView",
+  components: {
+    DeleteConfirmModal,
+  },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -101,6 +115,7 @@ export default defineComponent({
     const products = ref<any[]>([]);
     const loading = ref(true);
     const error = ref("");
+    const showDeleteModal = ref(false);
 
     const loadCategory = async () => {
       loading.value = true;
@@ -127,8 +142,10 @@ export default defineComponent({
     };
 
     const deleteCategoryHandler = async () => {
-      if (!confirm("Are you sure you want to delete this category?")) return;
+      showDeleteModal.value = true;
+    };
 
+    const confirmDelete = async () => {
       try {
         await deleteCategory(category.value._id);
         router.push("/categories");
@@ -136,6 +153,10 @@ export default defineComponent({
         error.value =
           err?.response?.data?.message || "Failed to delete category.";
       }
+    };
+
+    const closeDeleteModal = () => {
+      showDeleteModal.value = false;
     };
 
     const formatDate = (dateString: string) => {
@@ -157,6 +178,9 @@ export default defineComponent({
       error,
       deleteCategory: deleteCategoryHandler,
       formatDate,
+      showDeleteModal,
+      confirmDelete,
+      closeDeleteModal,
     };
   },
 });

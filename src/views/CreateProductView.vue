@@ -639,7 +639,8 @@ export default defineComponent({
   border-radius: 8px;
   font-size: 0.875rem;
   transition: all 0.2s ease;
-  background: #f9fafb;
+  background: white;
+  color: #000;
 }
 
 .form-input:focus,
@@ -648,6 +649,7 @@ export default defineComponent({
   outline: none;
   border-color: #3b82f6;
   background: white;
+  color: #000;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
@@ -675,6 +677,17 @@ export default defineComponent({
   padding-left: 2rem;
 }
 
+/* Ensure all form inputs have consistent styling */
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #9ca3af;
+}
+
+.form-input option {
+  background: white;
+  color: #000;
+}
+
 /* Images Section */
 .images-section {
   margin-top: 1rem;
@@ -698,6 +711,7 @@ export default defineComponent({
 
 .file-input {
   display: none;
+  color: #000;
 }
 
 .upload-content {

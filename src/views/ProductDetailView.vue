@@ -240,15 +240,29 @@
       </div>
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <DeleteConfirmModal
+    :show="showDeleteModal"
+    :item-name="product?.name || 'Product'"
+    description="This will permanently remove the product from your catalog. All associated data will be lost."
+    :loading="false"
+    @close="closeDeleteModal"
+    @confirm="confirmDelete"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getProduct, deleteProduct } from "../api";
+import DeleteConfirmModal from "../components/DeleteConfirmModal.vue";
 
 export default defineComponent({
   name: "ProductDetailView",
+  components: {
+    DeleteConfirmModal,
+  },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -256,6 +270,7 @@ export default defineComponent({
     const loading = ref(true);
     const error = ref("");
     const currentImageIndex = ref(0);
+    const showDeleteModal = ref(false);
 
     const loadProduct = async () => {
       loading.value = true;
@@ -271,14 +286,10 @@ export default defineComponent({
     };
 
     const deleteProductHandler = async () => {
-      if (
-        !confirm(
-          "Are you sure you want to delete this product? This action cannot be undone."
-        )
-      ) {
-        return;
-      }
+      showDeleteModal.value = true;
+    };
 
+    const confirmDelete = async () => {
       try {
         await deleteProduct(product.value._id);
         router.push("/products");
@@ -286,6 +297,10 @@ export default defineComponent({
         error.value =
           err?.response?.data?.message || "Failed to delete product.";
       }
+    };
+
+    const closeDeleteModal = () => {
+      showDeleteModal.value = false;
     };
 
     const nextImage = () => {
@@ -325,6 +340,9 @@ export default defineComponent({
       nextImage,
       previousImage,
       formatDate,
+      showDeleteModal,
+      confirmDelete,
+      closeDeleteModal,
     };
   },
 });

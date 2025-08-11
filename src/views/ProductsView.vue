@@ -1,5 +1,8 @@
 <template>
   <div class="products-view">
+    <!-- Breadcrumb Navigation -->
+    <BreadcrumbNav />
+
     <!-- Page Header -->
     <div class="page-header">
       <div class="page-title">
@@ -184,6 +187,44 @@
           <p class="product-description">{{ product.description }}</p>
           <div class="product-footer">
             <div class="product-price">${{ product.price }}</div>
+            <div class="product-actions">
+              <router-link
+                :to="`/products/${product._id}`"
+                class="action-btn view"
+                title="View Details"
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  ></path>
+                </svg>
+                View
+              </router-link>
+              <button
+                @click.stop="deleteProduct(product._id, product.name)"
+                class="action-btn delete"
+                title="Delete Product"
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  ></path>
+                </svg>
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       </router-link>
@@ -194,20 +235,39 @@
       Showing {{ filteredProducts.length }} of {{ products.length }} products
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <DeleteConfirmModal
+    :show="showDeleteModal"
+    :item-name="deletingProductName"
+    description="This will permanently remove the product from your catalog. All associated data will be lost."
+    :loading="false"
+    @close="closeDeleteModal"
+    @confirm="confirmDelete"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
 import { getProducts, deleteProduct } from "../api";
+import DeleteConfirmModal from "../components/DeleteConfirmModal.vue";
+import BreadcrumbNav from "../components/Breadcrumb.vue";
 
 export default defineComponent({
   name: "ProductsView",
+  components: {
+    DeleteConfirmModal,
+    BreadcrumbNav,
+  },
   setup() {
     const products = ref<any[]>([]);
     const loading = ref(true);
     const error = ref("");
     const searchQuery = ref("");
     const categoryFilter = ref("");
+    const showDeleteModal = ref(false);
+    const deletingProductId = ref<string | null>(null);
+    const deletingProductName = ref("");
 
     const loadProducts = async () => {
       loading.value = true;
@@ -223,16 +283,34 @@ export default defineComponent({
       }
     };
 
-    const deleteProductHandler = async (productId: string) => {
-      if (!confirm("Are you sure you want to delete this product?")) return;
+    const deleteProductHandler = async (
+      productId: string,
+      productName: string
+    ) => {
+      deletingProductId.value = productId;
+      deletingProductName.value = productName;
+      showDeleteModal.value = true;
+    };
+
+    const confirmDelete = async () => {
+      if (!deletingProductId.value) return;
 
       try {
-        await deleteProduct(productId);
+        await deleteProduct(deletingProductId.value);
         await loadProducts();
+        showDeleteModal.value = false;
+        deletingProductId.value = null;
+        deletingProductName.value = "";
       } catch (err: any) {
         error.value =
           err?.response?.data?.message || "Failed to delete product.";
       }
+    };
+
+    const closeDeleteModal = () => {
+      showDeleteModal.value = false;
+      deletingProductId.value = null;
+      deletingProductName.value = "";
     };
 
     const filteredProducts = computed(() => {
@@ -270,6 +348,10 @@ export default defineComponent({
       filteredProducts,
       loadProducts,
       deleteProduct: deleteProductHandler,
+      showDeleteModal,
+      deletingProductName,
+      confirmDelete,
+      closeDeleteModal,
     };
   },
 });

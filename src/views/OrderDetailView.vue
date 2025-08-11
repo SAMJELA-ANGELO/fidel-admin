@@ -64,21 +64,36 @@
       </div>
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <DeleteConfirmModal
+    :show="showDeleteModal"
+    :item-name="`Order #${order?._id?.slice(-6)?.toUpperCase() || 'Order'}`"
+    description="This will permanently remove the order from your system. All associated data will be lost."
+    :loading="false"
+    @close="closeDeleteModal"
+    @confirm="confirmDelete"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getOrder, deleteOrder } from "../api";
+import DeleteConfirmModal from "../components/DeleteConfirmModal.vue";
 
 export default defineComponent({
   name: "OrderDetailView",
+  components: {
+    DeleteConfirmModal,
+  },
   setup() {
     const route = useRoute();
     const router = useRouter();
     const order = ref<any>(null);
     const loading = ref(true);
     const error = ref("");
+    const showDeleteModal = ref(false);
 
     const loadOrder = async () => {
       loading.value = true;
@@ -94,14 +109,20 @@ export default defineComponent({
     };
 
     const deleteOrderHandler = async () => {
-      if (!confirm("Are you sure you want to delete this order?")) return;
+      showDeleteModal.value = true;
+    };
 
+    const confirmDelete = async () => {
       try {
         await deleteOrder(order.value._id);
         router.push("/orders");
       } catch (err: any) {
         error.value = err?.response?.data?.message || "Failed to delete order.";
       }
+    };
+
+    const closeDeleteModal = () => {
+      showDeleteModal.value = false;
     };
 
     const formatDate = (dateString: string) => {
@@ -122,6 +143,9 @@ export default defineComponent({
       error,
       deleteOrder: deleteOrderHandler,
       formatDate,
+      showDeleteModal,
+      confirmDelete,
+      closeDeleteModal,
     };
   },
 });
