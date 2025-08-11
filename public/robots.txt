@@ -1,2 +1,25 @@
+# Fidel Admin Portal Robots.txt
+# Allow all crawlers to access the site
 User-agent: *
-Disallow:
+Allow: /
+
+# Disallow admin-specific areas that shouldn't be indexed
+Disallow: /admin/
+Disallow: /login/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# Crawl delay (optional - be respectful to servers)
+Crawl-delay: 1
+
+# Additional rules for specific bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

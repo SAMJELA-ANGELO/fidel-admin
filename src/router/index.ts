@@ -5,11 +5,33 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "login",
     component: () => import("../views/LoginView.vue"),
+    meta: {
+      title: "Login | Fidel Admin Portal",
+      metaTags: [
+        {
+          name: "description",
+          content:
+            "Sign in to the Fidel Admin Portal to manage your store, products, and orders.",
+        },
+        { name: "robots", content: "noindex, nofollow" },
+      ],
+    },
   },
   {
     path: "/dashboard",
     name: "dashboard",
     component: () => import("../views/DashboardView.vue"),
+    meta: {
+      title: "Dashboard | Fidel Admin Portal",
+      metaTags: [
+        {
+          name: "description",
+          content:
+            "Overview of your Fidel store: recent orders, quick actions, and stats.",
+        },
+        { name: "robots", content: "index, follow" },
+      ],
+    },
   },
   {
     path: "/products",

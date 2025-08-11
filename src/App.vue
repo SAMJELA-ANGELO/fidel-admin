@@ -1,5 +1,18 @@
 <template>
   <div id="app-layout">
+    <Head>
+      <title>Fidel Admin Portal</title>
+      <meta
+        name="description"
+        content="Admin dashboard for Fidel. Manage products, orders, and more."
+      />
+      <meta property="og:title" content="Fidel Admin Portal" />
+      <meta
+        property="og:description"
+        content="Admin dashboard for Fidel. Manage products, orders, and more."
+      />
+      <meta property="og:type" content="website" />
+    </Head>
     <template v-if="!isLoginPage">
       <AdminTopbar @toggle-sidebar="toggleSidebar" />
 
