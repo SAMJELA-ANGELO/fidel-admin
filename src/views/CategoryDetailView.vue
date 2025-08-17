@@ -14,7 +14,7 @@
             class="btn btn-primary"
             >Edit Category</router-link
           >
-          <button @click="deleteCategory" class="btn btn-danger">
+          <button class="btn btn-danger" @click="deleteCategory">
             Delete Category
           </button>
         </div>

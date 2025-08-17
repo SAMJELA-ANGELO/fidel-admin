@@ -24,8 +24,8 @@
       </div>
       <button
         class="close-btn"
-        @click="$emit('close')"
         aria-label="Close sidebar"
+        @click="$emit('close')"
       >
         <svg
           class="close-icon"
@@ -181,6 +181,52 @@
               </svg>
               <span class="nav-text">Analytics</span>
             </a>
+          </li>
+          <li class="nav-item">
+            <router-link to="/blogs" class="nav-link" active-class="active">
+              <svg
+                class="nav-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 21H5a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 3v4M7 3v4"
+                />
+              </svg>
+              <span class="nav-text">Blogs</span>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              to="/blogs/create"
+              class="nav-link"
+              active-class="active"
+            >
+              <svg
+                class="nav-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                ></path>
+              </svg>
+              <span class="nav-text">Create Blog</span>
+            </router-link>
           </li>
 
           <li class="nav-item">

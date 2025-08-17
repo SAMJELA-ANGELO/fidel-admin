@@ -19,9 +19,9 @@
           Confirm Delete
         </h3>
         <button
-          @click="closeModal"
           class="close-button"
           aria-label="Close modal"
+          @click="closeModal"
         >
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -48,11 +48,11 @@
       </div>
 
       <div class="modal-footer">
-        <button @click="closeModal" class="btn btn-secondary">Cancel</button>
+        <button class="btn btn-secondary" @click="closeModal">Cancel</button>
         <button
-          @click="confirmDelete"
           class="btn btn-danger"
           :disabled="loading"
+          @click="confirmDelete"
         >
           <svg
             v-if="loading"

@@ -29,9 +29,9 @@
     <!-- Form Container -->
     <div class="form-container">
       <form
-        @submit.prevent="handleSubmit"
         class="product-form"
         enctype="multipart/form-data"
+        @submit.prevent="handleSubmit"
       >
         <!-- Basic Information -->
         <div class="form-section">
@@ -157,18 +157,18 @@
           <div class="images-section">
             <!-- Image Upload Area -->
             <div
+              v-if="imagePreviews.length < 10"
               class="upload-area"
               @click="triggerFileInput"
-              v-if="imagePreviews.length < 10"
             >
               <input
-                ref="fileInput"
                 id="images"
+                ref="fileInput"
                 type="file"
                 accept="image/*"
                 multiple
-                @change="handleFileChange"
                 class="file-input"
+                @change="handleFileChange"
               />
               <div class="upload-content">
                 <svg
@@ -194,7 +194,7 @@
             </div>
 
             <!-- Image Previews -->
-            <div class="image-previews" v-if="imagePreviews.length > 0">
+            <div v-if="imagePreviews.length > 0" class="image-previews">
               <div
                 v-for="(preview, index) in imagePreviews"
                 :key="index"
@@ -208,9 +208,9 @@
                 <div class="image-overlay">
                   <button
                     type="button"
-                    @click="removeImage(index)"
                     class="remove-image-btn"
                     title="Remove image"
+                    @click="removeImage(index)"
                   >
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -231,10 +231,10 @@
                 <div class="image-order">
                   <button
                     type="button"
-                    @click="moveImage(index, -1)"
                     class="order-btn prev"
                     :disabled="index === 0"
                     title="Move up"
+                    @click="moveImage(index, -1)"
                   >
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -248,10 +248,10 @@
                   <span class="order-number">{{ index + 1 }}</span>
                   <button
                     type="button"
-                    @click="moveImage(index, 1)"
                     class="order-btn next"
                     :disabled="index === imagePreviews.length - 1"
                     title="Move down"
+                    @click="moveImage(index, 1)"
                   >
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -286,7 +286,7 @@
 
         <!-- Form Actions -->
         <div class="form-actions">
-          <button type="button" @click="resetForm" class="btn btn-secondary">
+          <button type="button" class="btn btn-secondary" @click="resetForm">
             <svg
               class="btn-icon"
               fill="none"

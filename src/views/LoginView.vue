@@ -84,7 +84,7 @@
           <p class="login-subtitle">Sign in to continue to your dashboard</p>
         </div>
 
-        <form @submit.prevent="handleLogin" class="login-form">
+        <form class="login-form" @submit.prevent="handleLogin">
           <div class="form-group">
             <label for="username" class="form-label">Email Address</label>
             <div class="input-wrapper">

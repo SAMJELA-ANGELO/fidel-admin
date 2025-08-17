@@ -3,8 +3,8 @@
     <div class="topbar-left">
       <button
         class="menu-btn"
-        @click="$emit('toggle-sidebar')"
         aria-label="Toggle menu"
+        @click="$emit('toggle-sidebar')"
       >
         <svg
           class="menu-icon"
@@ -70,8 +70,8 @@
         <div class="user-menu">
           <button
             class="user-btn"
-            @click="toggleUserMenu"
             aria-label="User menu"
+            @click="toggleUserMenu"
           >
             <div class="user-avatar">
               <svg class="avatar-icon" fill="currentColor" viewBox="0 0 24 24">

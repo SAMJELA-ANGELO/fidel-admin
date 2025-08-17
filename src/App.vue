@@ -1,5 +1,6 @@
 <template>
   <div id="app-layout">
+    <GlobalToast ref="globalToast" />
     <template v-if="!isLoginPage">
       <AdminTopbar @toggle-sidebar="toggleSidebar" />
 
@@ -13,7 +14,7 @@
       </transition>
 
       <!-- Sidebar -->
-      <AdminSidebar :isOpen="sidebarOpen" @close="closeSidebar" />
+      <AdminSidebar :is-open="sidebarOpen" @close="closeSidebar" />
     </template>
 
     <!-- Main content -->
@@ -30,11 +31,12 @@ import { defineComponent, ref, onMounted, onUnmounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import AdminTopbar from "./components/Topbar.vue";
 import AdminSidebar from "./components/Sidebar.vue";
+import GlobalToast from "./components/GlobalToast.vue";
 import { useSeo } from "./composables/useSeo";
 
 export default defineComponent({
   name: "App",
-  components: { AdminTopbar, AdminSidebar },
+  components: { AdminTopbar, AdminSidebar, GlobalToast },
   setup() {
     const route = useRoute();
     const sidebarOpen = ref(true); // Default to open on desktop

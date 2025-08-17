@@ -1,153 +1,5 @@
 <template>
   <div class="orders-view">
-    <!-- Page Header -->
-    <div class="page-header">
-      <div class="page-title">
-        <h1>Orders</h1>
-        <p class="page-subtitle">Track and manage customer orders</p>
-      </div>
-      <div class="page-actions">
-        <button class="btn btn-secondary">
-          <svg
-            class="btn-icon"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            ></path>
-          </svg>
-          Export
-        </button>
-      </div>
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon total">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-            ></path>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <h3 class="stat-value">{{ orders.length }}</h3>
-          <p class="stat-label">Total Orders</p>
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon pending">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-            ></path>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <h3 class="stat-value">{{ pendingOrders.length }}</h3>
-          <p class="stat-label">Pending</p>
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon completed">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            ></path>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <h3 class="stat-value">{{ completedOrders.length }}</h3>
-          <p class="stat-label">Completed</p>
-        </div>
-      </div>
-
-      <div class="stat-card">
-        <div class="stat-icon revenue">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
-            ></path>
-          </svg>
-        </div>
-        <div class="stat-content">
-          <h3 class="stat-value">${{ totalRevenue }}</h3>
-          <p class="stat-label">Total Revenue</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="filters-section">
-      <div class="search-box">
-        <svg
-          class="search-icon"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          ></path>
-        </svg>
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Search orders..."
-          class="search-input"
-        />
-      </div>
-      <div class="filter-actions">
-        <select v-model="statusFilter" class="filter-select">
-          <option value="">All Status</option>
-          <option value="pending">Pending</option>
-          <option value="processing">Processing</option>
-          <option value="completed">Completed</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
-        <button class="btn btn-secondary">
-          <svg
-            class="btn-icon"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
-            ></path>
-          </svg>
-          Filter
-        </button>
-      </div>
-    </div>
-
-    <!-- Loading State -->
     <div v-if="loading" class="loading-state">
       <div class="loading-spinner">
         <svg
@@ -167,7 +19,6 @@
       <p>Loading orders...</p>
     </div>
 
-    <!-- Error State -->
     <div v-else-if="error" class="error-state">
       <div class="error-icon">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -181,47 +32,138 @@
       </div>
       <h3>Error Loading Orders</h3>
       <p>{{ error }}</p>
-      <button @click="loadOrders" class="btn btn-primary">Try Again</button>
+      <button class="btn btn-primary" @click="loadOrders">Try Again</button>
     </div>
 
-    <!-- Empty State -->
-    <div v-else-if="filteredOrders.length === 0" class="empty-state">
-      <div class="empty-icon">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-          ></path>
-        </svg>
-      </div>
-      <h3>No Orders Found</h3>
-      <p>Orders will appear here once customers start placing them.</p>
-    </div>
-
-    <!-- Orders List -->
-    <div v-else class="orders-list">
-      <div v-for="order in filteredOrders" :key="order._id" class="order-card">
-        <div class="order-header">
-          <div class="order-id">
-            <span class="order-number"
-              >#{{ order._id.slice(-6).toUpperCase() }}</span
+    <div v-else class="orders-list-container">
+      <div class="page-header">
+        <div>
+          <h1>Orders</h1>
+          <p>Manage customer orders and track their status.</p>
+        </div>
+        <div class="header-actions">
+          <div class="search-box">
+            <svg
+              class="search-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-            <span class="order-date">{{ formatDate(order.createdAt) }}</span>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
+            </svg>
+            <input
+              v-model="searchQuery"
+              type="text"
+              placeholder="Search by Order ID or Name..."
+              class="search-input"
+            />
           </div>
-          <div class="order-status">
-            <span class="status-badge" :class="order.status">
-              {{ order.status }}
-            </span>
+          <div class="filter-actions">
+            <select v-model="statusFilter" class="filter-select">
+              <option value="">All Statuses</option>
+              <option value="pending">Pending</option>
+              <option value="processing">Processing</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon total">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2m0 0l2-2m-2 2v-4"
+              ></path>
+            </svg>
+          </div>
+          <div>
+            <p class="stat-value">{{ orders.length }}</p>
+            <p class="stat-label">Total Orders</p>
           </div>
         </div>
 
-        <div class="order-content">
-          <div class="order-customer">
-            <div class="customer-info">
+        <div class="stat-card">
+          <div class="stat-icon pending">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+          </div>
+          <div>
+            <p class="stat-value">{{ pendingOrders.length }}</p>
+            <p class="stat-label">Pending Orders</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon completed">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+          </div>
+          <div>
+            <p class="stat-value">{{ completedOrders.length }}</p>
+            <p class="stat-label">Completed Orders</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon revenue">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2m4 0h1a2 2 0 002-2v-3a2 2 0 00-2-2H9m0 0V9m-6 6h6m3 0V9m1 10h1a2 2 0 002-2v-3a2 2 0 00-2-2h-3m-3 0V9"
+              ></path>
+            </svg>
+          </div>
+          <div>
+            <p class="stat-value">${{ totalRevenue }}</p>
+            <p class="stat-label">Total Revenue</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="orders-list">
+        <div
+          v-for="order in filteredOrders"
+          :key="order._id"
+          class="order-card"
+        >
+          <div class="card-header">
+            <div class="order-id">
+              Order #{{ order._id.slice(-6).toUpperCase() }}
+            </div>
+            <div class="order-status-badge">
+              <span :class="`status-${order.status}`">{{ order.status }}</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="customer-info-row">
               <svg
-                class="customer-icon"
+                class="icon-md text-slate-500"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -233,89 +175,93 @@
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                 ></path>
               </svg>
-              <div>
-                <h4 class="customer-name">{{ order.user }}</h4>
-                <p class="customer-email">customer@example.com</p>
+              <div class="customer-details">
+                <span class="customer-name"
+                  >{{ order.firstName }} {{ order.lastName }}</span
+                >
+                <span class="customer-email">{{ order.email }}</span>
+              </div>
+            </div>
+
+            <table class="products-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Qty</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in order.products" :key="item._id">
+                  <td class="product-cell">
+                    <img
+                      v-if="item.product && item.product.images.length"
+                      :src="item.product.images[0]"
+                      alt="Product Image"
+                      class="product-image"
+                    />
+                    <span v-if="item.product">{{ item.product.name }}</span>
+                  </td>
+                  <td>x{{ item.quantity }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="details-row">
+              <div class="total-amount-box">
+                <span class="label">Total</span>
+                <span class="amount"
+                  >${{ order.total ? order.total.toFixed(2) : "0.00" }}</span
+                >
+              </div>
+              <div class="order-date-box">
+                <span class="label">Ordered On</span>
+                <span class="date">{{ formatDate(order.createdAt) }}</span>
               </div>
             </div>
           </div>
 
-          <div class="order-products">
-            <h4 class="products-title">Products</h4>
-            <div class="products-list">
-              <div
-                v-for="item in order.products"
-                :key="item.product"
-                class="product-item"
-              >
-                <div class="product-info">
-                  <span class="product-name">{{ item.product }}</span>
-                  <span class="product-quantity">x{{ item.quantity }}</span>
-                </div>
-              </div>
-            </div>
+          <div class="card-footer">
+            <router-link
+              :to="`/orders/${order._id}`"
+              class="btn-sm btn-primary"
+            >
+              View Details
+            </router-link>
+            <button
+              class="btn-sm btn-danger"
+              @click.stop="
+                deleteOrder(
+                  order._id,
+                  `Order #${order._id.slice(-6).toUpperCase()}`
+                )
+              "
+            >
+              Delete
+            </button>
           </div>
+        </div>
 
-          <div class="order-footer">
-            <div class="order-total">
-              <span class="total-label">Total</span>
-              <span class="total-amount">${{ order.total }}</span>
-            </div>
-            <div class="order-actions">
-              <router-link
-                :to="`/orders/${order._id}`"
-                class="action-btn view"
-                title="View Details"
-              >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  ></path>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  ></path>
-                </svg>
-                View
-              </router-link>
-              <button
-                @click="
-                  deleteOrder(
-                    order._id,
-                    `Order #${order._id.slice(-6).toUpperCase()}`
-                  )
-                "
-                class="action-btn delete"
-                title="Delete Order"
-              >
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  ></path>
-                </svg>
-                Delete
-              </button>
-            </div>
+        <div
+          v-if="filteredOrders.length === 0 && !loading && !error"
+          class="empty-state"
+        >
+          <div class="empty-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h2m0 0h4a2 2 0 012 2v6m-12 0H5a2 2 0 01-2-2V7a2 2 0 012-2h2"
+              ></path>
+            </svg>
           </div>
+          <h3>No Orders Found</h3>
+          <p>Your search or filter criteria returned no results.</p>
         </div>
       </div>
     </div>
-
-    <!-- Results Count -->
-    <div v-if="filteredOrders.length > 0" class="results-count">
-      Showing {{ filteredOrders.length }} of {{ orders.length }} orders
-    </div>
   </div>
 
-  <!-- Delete Confirmation Modal -->
   <DeleteConfirmModal
     :show="showDeleteModal"
     :item-name="deletingOrderNumber"
@@ -361,32 +307,32 @@ export default defineComponent({
 
     const filteredOrders = computed(() => {
       let filtered = orders.value;
-
       if (searchQuery.value) {
         filtered = filtered.filter(
           (order) =>
             order._id.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-            order.user.toLowerCase().includes(searchQuery.value.toLowerCase())
+            order.firstName
+              .toLowerCase()
+              .includes(searchQuery.value.toLowerCase()) ||
+            order.lastName
+              .toLowerCase()
+              .includes(searchQuery.value.toLowerCase())
         );
       }
-
       if (statusFilter.value) {
         filtered = filtered.filter(
           (order) => order.status === statusFilter.value
         );
       }
-
       return filtered;
     });
 
     const pendingOrders = computed(() =>
       orders.value.filter((order) => order.status === "pending")
     );
-
     const completedOrders = computed(() =>
       orders.value.filter((order) => order.status === "completed")
     );
-
     const totalRevenue = computed(() =>
       orders.value
         .reduce((sum, order) => sum + (order.total || 0), 0)
@@ -411,7 +357,6 @@ export default defineComponent({
 
     const confirmDelete = async () => {
       if (!deletingOrderId.value) return;
-
       try {
         await deleteOrder(deletingOrderId.value);
         await loadOrders();
@@ -454,132 +399,79 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* Base Styles & Utilities */
 .orders-view {
-  max-width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding: 2rem;
+}
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+.btn-danger {
+  background-color: #ef4444;
+  color: white;
+}
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+.icon-md {
+  width: 20px;
+  height: 20px;
+}
+.text-slate-500 {
+  color: #64748b;
 }
 
 /* Page Header */
 .page-header {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-bottom: 2rem;
 }
-
-.page-title h1 {
-  font-size: 2rem;
+.page-header h1 {
+  font-size: 2.5rem;
   font-weight: 700;
   color: #1e293b;
-  margin: 0 0 0.5rem 0;
-}
-
-.page-subtitle {
-  color: #64748b;
-  font-size: 1rem;
   margin: 0;
 }
-
-.page-actions {
-  display: flex;
-  gap: 1rem;
-}
-
-.btn-icon {
-  width: 18px;
-  height: 18px;
-}
-
-/* Stats Grid */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.stat-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  border: 1px solid #e2e8f0;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  transition: all 0.2s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.stat-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  color: white;
-  flex-shrink: 0;
-}
-
-.stat-icon.total {
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-}
-
-.stat-icon.pending {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-}
-
-.stat-icon.completed {
-  background: linear-gradient(135deg, #10b981, #059669);
-}
-
-.stat-icon.revenue {
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-}
-
-.stat-icon svg {
-  width: 24px;
-  height: 24px;
-}
-
-.stat-content {
-  flex: 1;
-}
-
-.stat-value {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0 0 0.25rem 0;
-  line-height: 1;
-}
-
-.stat-label {
+.page-header p {
   color: #64748b;
-  font-size: 0.875rem;
   margin: 0;
 }
-
-/* Filters Section */
-.filters-section {
+.header-actions {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 2rem;
-  padding: 1.5rem;
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  width: 100%;
 }
-
 .search-box {
   position: relative;
   flex: 1;
 }
-
 .search-icon {
   position: absolute;
   left: 1rem;
@@ -590,102 +482,289 @@ export default defineComponent({
   color: #9ca3af;
   pointer-events: none;
 }
-
 .search-input {
   width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  padding: 0.75rem 1rem 0.75rem 3rem;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
+  font-size: 0.9rem;
   background: #f9fafb;
 }
-
-.search-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  background: white;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
 .filter-actions {
   display: flex;
   gap: 1rem;
-  align-items: center;
 }
-
 .filter-select {
   padding: 0.75rem;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   background: white;
-  min-width: 150px;
 }
-
-/* Loading State */
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  text-align: center;
-}
-
-.loading-spinner {
-  margin-bottom: 1rem;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  color: #3b82f6;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
+@media (min-width: 768px) {
+  .page-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
-  to {
-    transform: rotate(360deg);
+  .header-actions {
+    flex-direction: row;
+    align-items: center;
+    width: auto;
   }
 }
 
-/* Error State */
-.error-state {
+/* Stats Cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
-  text-align: center;
+  flex-shrink: 0;
+}
+.stat-icon.total {
+  background: #dbeafe;
+  color: #2563eb;
+}
+.stat-icon.pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+.stat-icon.completed {
+  background: #d1fae5;
+  color: #059669;
+}
+.stat-icon.revenue {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+.stat-icon svg {
+  width: 28px;
+  height: 28px;
+}
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.25rem 0;
+}
+.stat-label {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0;
+}
+@media (min-width: 640px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
-.error-icon {
-  margin-bottom: 1rem;
+/* Orders List */
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .orders-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1280px) {
+  .orders-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.error-icon svg {
-  width: 48px;
-  height: 48px;
-  color: #ef4444;
+.order-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  transition: all 0.2s ease;
+}
+.order-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
-.error-state h3 {
-  font-size: 1.25rem;
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+}
+.order-id {
   font-weight: 600;
   color: #1e293b;
-  margin: 0 0 0.5rem 0;
+}
+.order-status-badge span {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.status-pending {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+.status-processing {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+.status-completed {
+  background-color: #d1fae5;
+  color: #059669;
+}
+.status-cancelled {
+  background-color: #fee2e2;
+  color: #dc2626;
 }
 
-.error-state p {
+.card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.customer-info-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.customer-details {
+  display: flex;
+  flex-direction: column;
+}
+.customer-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+.customer-email {
+  font-size: 0.875rem;
   color: #64748b;
-  margin: 0 0 1.5rem 0;
 }
 
-/* Empty State */
+/* Products Table Styles */
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: -0.5rem;
+}
+.products-table th,
+.products-table td {
+  padding: 0.5rem 0;
+  text-align: left;
+  font-size: 0.875rem;
+}
+.products-table thead th {
+  color: #94a3b8;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e2e8f0;
+}
+.products-table tbody tr:not(:last-child) {
+  border-bottom: 1px solid #f1f5f9;
+}
+.products-table tbody td:first-child {
+  color: #334155;
+  font-weight: 500;
+}
+.products-table tbody td:last-child {
+  color: #64748b;
+  font-weight: 500;
+}
+.product-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.product-image {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.details-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+}
+.total-amount-box,
+.order-date-box {
+  display: flex;
+  flex-direction: column;
+}
+.label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #059669;
+}
+.date {
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.card-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  background-color: #f1f5f9;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* State Messages */
+.loading-state,
+.error-state,
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -694,290 +773,46 @@ export default defineComponent({
   padding: 4rem 2rem;
   text-align: center;
 }
-
+.loading-spinner,
+.error-icon,
 .empty-icon {
   margin-bottom: 1rem;
 }
-
+.spinner {
+  width: 40px;
+  height: 40px;
+  color: #3b82f6;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.error-icon svg,
 .empty-icon svg {
   width: 48px;
   height: 48px;
+}
+.error-icon svg {
+  color: #ef4444;
+}
+.empty-icon svg {
   color: #9ca3af;
 }
-
+.error-state h3,
 .empty-state h3 {
   font-size: 1.25rem;
   font-weight: 600;
   color: #1e293b;
   margin: 0 0 0.5rem 0;
 }
-
+.error-state p,
 .empty-state p {
   color: #64748b;
   margin: 0;
-}
-
-/* Orders List */
-.orders-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.order-card {
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  overflow: hidden;
-  transition: all 0.2s ease;
-}
-
-.order-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.order-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem;
-  background: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.order-id {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.order-number {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #1e293b;
-}
-
-.order-date {
-  font-size: 0.875rem;
-  color: #64748b;
-}
-
-.status-badge {
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.status-badge.pending {
-  background: #fef3c7;
-  color: #d97706;
-}
-
-.status-badge.processing {
-  background: #dbeafe;
-  color: #2563eb;
-}
-
-.status-badge.completed {
-  background: #d1fae5;
-  color: #059669;
-}
-
-.status-badge.cancelled {
-  background: #fee2e2;
-  color: #dc2626;
-}
-
-.order-content {
-  padding: 1.5rem;
-}
-
-.order-customer {
-  margin-bottom: 1.5rem;
-}
-
-.customer-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.customer-icon {
-  width: 20px;
-  height: 20px;
-  color: #64748b;
-}
-
-.customer-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1e293b;
-  margin: 0 0 0.25rem 0;
-}
-
-.customer-email {
-  font-size: 0.875rem;
-  color: #64748b;
-  margin: 0;
-}
-
-.order-products {
-  margin-bottom: 1.5rem;
-}
-
-.products-title {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #374151;
-  margin: 0 0 0.75rem 0;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.products-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.product-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem;
-  background: #f8fafc;
-  border-radius: 8px;
-}
-
-.product-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.product-name {
-  font-size: 0.875rem;
-  color: #1e293b;
-  font-weight: 500;
-}
-
-.product-quantity {
-  font-size: 0.75rem;
-  color: #64748b;
-  background: #e2e8f0;
-  padding: 0.25rem 0.5rem;
-  border-radius: 12px;
-}
-
-.order-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
-}
-
-.order-total {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.total-label {
-  font-size: 0.75rem;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.total-amount {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #059669;
-}
-
-.order-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.action-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.action-btn.view {
-  background: #f1f5f9;
-  color: #475569;
-}
-
-.action-btn.edit {
-  background: #3b82f6;
-  color: white;
-}
-
-.action-btn:hover {
-  transform: translateY(-1px);
-}
-
-.action-btn svg {
-  width: 16px;
-  height: 16px;
-}
-
-/* Results Count */
-.results-count {
-  text-align: center;
-  color: #64748b;
-  font-size: 0.875rem;
-  padding: 1rem 0;
-}
-
-/* Responsive Design */
-@media (min-width: 640px) {
-  .filters-section {
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 768px) {
-  .page-header {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .page-title h1 {
-    font-size: 2.25rem;
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .orders-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
 }
 </style>

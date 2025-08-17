@@ -43,7 +43,12 @@
     <meta name="msapplication-config" content="browserconfig.xml">
     <meta name="theme-color" content="#3b82f6">
     <meta name="color-scheme" content="light dark">
-    
+    <!-- PrimeVue UMD and styles -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primevue/4.3.7/themes/saga-blue/theme.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primevue/4.3.7/primevue.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.0/primeicons.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/primevue/4.3.7/umd/primevue.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/primeicons/6.0.0/primeicons.min.js"></script>
     <!-- Preconnect to external domains for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,8 +61,6 @@
     <link rel="preload" href="<%= BASE_URL %>favicon.png" as="image" type="image/png">
     
     <!-- Preload critical CSS -->
-    <link rel="preload" href="<%= BASE_URL %>css/app.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="<%= BASE_URL %>css/app.css"></noscript>
     
     <!-- Cache control headers for static assets -->
     <meta http-equiv="Cache-Control" content="public, max-age=31536000">
@@ -65,7 +68,6 @@
     
     <!-- Security headers for better SEO trust -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     

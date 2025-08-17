@@ -422,6 +422,91 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/blogs",
+    name: "blogs",
+    component: () => import("../views/BlogsView.vue"),
+    meta: {
+      title: "Blogs | Fidel Admin Portal",
+      metaTags: [
+        { name: "description", content: "Manage store blogs." },
+        { name: "robots", content: "index, follow" },
+        { property: "og:title", content: "Blogs | Fidel Admin Portal" },
+        {
+          property: "og:description",
+          content: "Manage store blogs.",
+        },
+        { property: "og:type", content: "website" },
+        {
+          property: "og:url",
+          content: "https://fidel-admin.netlify.app/blogs",
+        },
+        {
+          name: "twitter:title",
+          content: "Blogs | Fidel Admin Portal",
+        },
+        {
+          name: "twitter:description",
+          content: "Manage store blogs.",
+        },
+      ],
+    },
+  },
+  {
+    path: "/blogs/:id",
+    name: "blogs-details",
+    component: () => import("../views/BlogDetailView.vue"),
+    meta: {
+      title: "Blogs | Fidel Admin Portal",
+      metaTags: [
+        { name: "description", content: "Manage store blogs." },
+        { name: "robots", content: "index, follow" },
+        { property: "og:title", content: "Blogs | Fidel Admin Portal" },
+        {
+          property: "og:description",
+          content: "Manage store blogs.",
+        },
+        { property: "og:type", content: "website" },
+        {
+          property: "og:url",
+          content: "https://fidel-admin.netlify.app/blogs",
+        },
+        {
+          name: "twitter:title",
+          content: "Blogs | Fidel Admin Portal",
+        },
+        {
+          name: "twitter:description",
+          content: "Manage store blogs.",
+        },
+      ],
+    },
+  },
+  {
+    path: "/blogs/create",
+    name: "create-blog",
+    component: () => import("../views/CreateBlogView.vue"),
+    meta: {
+      title: "Create Blog | Fidel Admin Portal",
+      metaTags: [{ name: "description", content: "Create a new blog post." }],
+    },
+  },
+  {
+    // New route for editing a blog
+    path: "/blogs/:id/edit",
+    name: "edit-blog",
+    component: () => import("../views/EditBlogView.vue"),
+    meta: {
+      title: "Edit Blog | Fidel Admin Portal",
+      metaTags: [
+        { name: "description", content: "Edit an existing blog post." },
+      ],
+    },
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: "/",
+  },
+  {
     path: "/:catchAll(.*)",
     redirect: "/",
   },

@@ -112,7 +112,7 @@
       </div>
       <h3>Error Loading Products</h3>
       <p>{{ error }}</p>
-      <button @click="loadProducts" class="btn btn-primary">Try Again</button>
+      <button class="btn btn-primary" @click="loadProducts">Try Again</button>
     </div>
 
     <!-- Empty State -->
@@ -210,9 +210,9 @@
                 View
               </router-link>
               <button
-                @click.stop="deleteProduct(product._id, product.name)"
                 class="action-btn delete"
                 title="Delete Product"
+                @click.stop="deleteProduct(product._id, product.name)"
               >
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path

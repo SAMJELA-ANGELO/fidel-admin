@@ -1,3 +1,16 @@
+// Blog API
+export const getBlogs = () => axios.get(`${API_BASE}/blogs`);
+export const getBlog = (id: string) => axios.get(`${API_BASE}/blogs/${id}`);
+export const createBlog = (data: FormData) =>
+  axios.post(`${API_BASE}/blogs`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+export const updateBlog = (id: string, data: FormData) =>
+  axios.put(`${API_BASE}/blogs/${id}`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+export const deleteBlog = (id: string) =>
+  axios.delete(`${API_BASE}/blogs/${id}`);
 import axios from "axios";
 
 const API_BASE =
@@ -21,6 +34,11 @@ export const deleteProduct = (id: string) =>
 export const getOrders = () => axios.get(`${API_BASE}/orders`);
 export const getOrder = (id: string) => axios.get(`${API_BASE}/orders/${id}`);
 export const getOrderCount = () => axios.get(`${API_BASE}/orders/count`);
+export const editAndSendInvoice = (
+  id: string,
+  data: { toEmail: string; invoiceData: any }
+) => axios.put(`${API_BASE}/orders/${id}/invoice`, data);
+
 export interface OrderUpdate {
   status?: string;
   total?: number;

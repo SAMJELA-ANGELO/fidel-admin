@@ -7,7 +7,7 @@
         <p class="page-subtitle">Manage your product categories</p>
       </div>
       <div class="page-actions">
-        <button @click="showCreateModal = true" class="btn btn-primary">
+        <button class="btn btn-primary" @click="showCreateModal = true">
           <svg
             class="btn-icon"
             fill="none"
@@ -85,7 +85,7 @@
       </div>
       <h3>Error Loading Categories</h3>
       <p>{{ error }}</p>
-      <button @click="loadCategories" class="btn btn-primary">Try Again</button>
+      <button class="btn btn-primary" @click="loadCategories">Try Again</button>
     </div>
 
     <!-- Empty State -->
@@ -102,7 +102,7 @@
       </div>
       <h3>No Categories Found</h3>
       <p>Get started by creating your first category.</p>
-      <button @click="showCreateModal = true" class="btn btn-primary">
+      <button class="btn btn-primary" @click="showCreateModal = true">
         Add Category
       </button>
     </div>
@@ -127,9 +127,9 @@
           </div>
           <div class="category-actions">
             <button
-              @click="editCategory(category)"
               class="action-btn edit"
               title="Edit Category"
+              @click="editCategory(category)"
             >
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -141,9 +141,9 @@
               </svg>
             </button>
             <button
-              @click="deleteCategoryHandler(category._id, category.name)"
               class="action-btn delete"
               title="Delete Category"
+              @click="deleteCategoryHandler(category._id, category.name)"
             >
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -189,7 +189,7 @@
       <div class="modal" @click.stop>
         <div class="modal-header">
           <h3>{{ showEditModal ? "Edit Category" : "Create Category" }}</h3>
-          <button @click="closeModal" class="modal-close">
+          <button class="modal-close" @click="closeModal">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -201,7 +201,7 @@
           </button>
         </div>
 
-        <form @submit.prevent="handleSubmit" class="modal-form">
+        <form class="modal-form" @submit.prevent="handleSubmit">
           <div class="form-group">
             <label for="categoryName" class="form-label">Category Name *</label>
             <input
@@ -228,7 +228,7 @@
           </div>
 
           <div class="modal-actions">
-            <button type="button" @click="closeModal" class="btn btn-secondary">
+            <button type="button" class="btn btn-secondary" @click="closeModal">
               Cancel
             </button>
             <button
@@ -269,7 +269,7 @@
       <div class="modal-content" @click.stop>
         <div class="modal-header">
           <h3 class="modal-title">Confirm Delete</h3>
-          <button @click="closeDeleteModal" class="close-button">×</button>
+          <button class="close-button" @click="closeDeleteModal">×</button>
         </div>
         <div class="modal-body">
           <p>
@@ -283,120 +283,15 @@
           </p>
         </div>
         <div class="modal-footer">
-          <button @click="closeDeleteModal" class="btn btn-secondary">
+          <button class="btn btn-secondary" @click="closeDeleteModal">
             Cancel
           </button>
-          <button @click="confirmDelete" class="btn btn-danger">Delete</button>
+          <button class="btn btn-danger" @click="confirmDelete">Delete</button>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-/* Inline Modal Styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 1rem;
-}
-
-.modal-content {
-  background: white;
-  border-radius: 12px;
-  max-width: 500px;
-  width: 100%;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem 1.5rem 1rem;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.modal-title {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #1e293b;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #64748b;
-  padding: 0.25rem;
-}
-
-.close-button:hover {
-  color: #1e293b;
-}
-
-.modal-body {
-  padding: 1.5rem;
-}
-
-.modal-body p {
-  margin: 0 0 1rem 0;
-  color: #1e293b;
-  line-height: 1.5;
-}
-
-.modal-body p:last-child {
-  margin-bottom: 0;
-  color: #64748b;
-  font-size: 0.875rem;
-}
-
-.modal-footer {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  padding: 1rem 1.5rem 1.5rem;
-  border-top: 1px solid #e2e8f0;
-}
-
-.btn {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-secondary {
-  background: #f1f5f9;
-  color: #475569;
-}
-
-.btn-secondary:hover {
-  background: #e2e8f0;
-}
-
-.btn-danger {
-  background: #ef4444;
-  color: white;
-}
-
-.btn-danger:hover {
-  background: #dc2626;
-}
-</style>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
@@ -562,6 +457,111 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+/* Inline Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #64748b;
+  padding: 0.25rem;
+}
+
+.close-button:hover {
+  color: #1e293b;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-body p {
+  margin: 0 0 1rem 0;
+  color: #1e293b;
+  line-height: 1.5;
+}
+
+.modal-body p:last-child {
+  margin-bottom: 0;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+</style>
 
 <style scoped>
 .categories-view {

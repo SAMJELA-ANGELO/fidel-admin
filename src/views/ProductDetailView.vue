@@ -34,7 +34,7 @@
       <h3>Error Loading Product</h3>
       <p>{{ error }}</p>
       <div class="error-actions">
-        <button @click="loadProduct" class="btn btn-primary">Try Again</button>
+        <button class="btn btn-primary" @click="loadProduct">Try Again</button>
         <router-link to="/products" class="btn btn-secondary"
           >Back to Products</router-link
         >
@@ -69,7 +69,7 @@
             </svg>
             Edit Product
           </router-link>
-          <button @click="deleteProduct" class="btn btn-danger">
+          <button class="btn btn-danger" @click="deleteProduct">
             <svg
               class="btn-icon"
               fill="none"
@@ -104,9 +104,9 @@
               />
               <div v-if="product.images.length > 1" class="image-navigation">
                 <button
-                  @click="previousImage"
                   class="nav-btn prev"
                   :disabled="currentImageIndex === 0"
+                  @click="previousImage"
                 >
                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -118,9 +118,9 @@
                   </svg>
                 </button>
                 <button
-                  @click="nextImage"
                   class="nav-btn next"
                   :disabled="currentImageIndex === product.images.length - 1"
+                  @click="nextImage"
                 >
                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -137,9 +137,9 @@
               <button
                 v-for="(image, index) in product.images"
                 :key="index"
-                @click="currentImageIndex = index"
                 class="thumbnail"
                 :class="{ active: currentImageIndex === index }"
+                @click="currentImageIndex = index"
               >
                 <img
                   :src="image"
