@@ -94,6 +94,17 @@
 
           <div class="form-grid">
             <div class="form-group">
+              <label for="weight" class="form-label">Weight *</label>
+              <input
+                id="weight"
+                v-model="form.weight"
+                type="text"
+                class="form-input"
+                placeholder="e.g. 2g, 1oz"
+                required
+              />
+            </div>
+            <div class="form-group">
               <label for="name" class="form-label">Product Name *</label>
               <input
                 id="name"
@@ -483,6 +494,9 @@ export default defineComponent({
       description: "",
       price: 0,
       category: "",
+      weight: "",
+      flavours: "",
+      rating: 5,
     });
 
     const productId = route.params.id as string;
@@ -501,6 +515,11 @@ export default defineComponent({
         form.description = product.description;
         form.price = product.price;
         form.category = product.category?._id || product.category || "";
+        form.weight = product.weight || "";
+        form.flavours = Array.isArray(product.flavours)
+          ? product.flavours.join(", ")
+          : product.flavours || "";
+        form.rating = product.rating || 5;
 
         // Load current images
         if (product.images && Array.isArray(product.images)) {
@@ -581,6 +600,7 @@ export default defineComponent({
         data.append("description", form.description);
         data.append("price", String(form.price));
         data.append("category", form.category);
+        data.append("weight", form.weight);
 
         // Add current images (in order)
         currentImages.value.forEach((image, index) => {

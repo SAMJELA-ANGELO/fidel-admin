@@ -61,7 +61,17 @@
                 required
               />
             </div>
-
+            <div class="form-group">
+              <label for="weight" class="form-label">Weight *</label>
+              <input
+                id="weight"
+                v-model="form.weight"
+                type="text"
+                class="form-input"
+                placeholder="e.g. 2g, 1oz"
+                required
+              />
+            </div>
             <div class="form-group">
               <label for="category" class="form-label">Category *</label>
               <select
@@ -410,6 +420,7 @@ export default defineComponent({
       category: "",
       flavours: "",
       rating: 5,
+      weight: "",
     });
 
     const loading = ref(false);
@@ -480,6 +491,7 @@ export default defineComponent({
       form.category = "";
       form.flavours = "";
       form.rating = 5;
+      form.weight = "";
       imagePreviews.value = [];
       error.value = "";
       success.value = false;
@@ -497,6 +509,7 @@ export default defineComponent({
         data.append("price", String(form.price));
         data.append("category", form.category);
         data.append("rating", String(form.rating));
+        data.append("weight", form.weight);
         data.append(
           "flavours",
           JSON.stringify(form.flavours.split(",").map((s) => s.trim()))
