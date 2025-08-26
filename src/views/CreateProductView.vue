@@ -1,6 +1,5 @@
 <template>
   <div class="create-product-view">
-    <!-- Page Header -->
     <div class="page-header">
       <div class="page-title">
         <h1>Create Product</h1>
@@ -26,14 +25,12 @@
       </div>
     </div>
 
-    <!-- Form Container -->
     <div class="form-container">
       <form
         class="product-form"
         enctype="multipart/form-data"
         @submit.prevent="handleSubmit"
       >
-        <!-- Basic Information -->
         <div class="form-section">
           <h3 class="section-title">
             <svg
@@ -98,7 +95,6 @@
           </div>
         </div>
 
-        <!-- Pricing -->
         <div class="form-section">
           <h3 class="section-title">
             <svg
@@ -114,28 +110,56 @@
                 d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
               ></path>
             </svg>
-            Pricing
+            Pricing and Details
           </h3>
 
-          <div class="form-group">
-            <label for="price" class="form-label">Price ($) *</label>
-            <div class="price-input-wrapper">
-              <span class="currency-symbol">$</span>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="price" class="form-label">Price ($) *</label>
+              <div class="price-input-wrapper">
+                <span class="currency-symbol">$</span>
+                <input
+                  id="price"
+                  v-model.number="form.price"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  class="form-input price-input"
+                  placeholder="0.00"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="rating" class="form-label">Rating (1-5)</label>
               <input
-                id="price"
-                v-model.number="form.price"
+                id="rating"
+                v-model.number="form.rating"
                 type="number"
-                min="0"
-                step="0.01"
-                class="form-input price-input"
-                placeholder="0.00"
-                required
+                min="1"
+                max="5"
+                step="1"
+                class="form-input"
+                placeholder="Enter rating"
               />
             </div>
           </div>
+
+          <div class="form-group">
+            <label for="flavours" class="form-label"
+              >Flavours (comma-separated)</label
+            >
+            <input
+              id="flavours"
+              v-model="form.flavours"
+              type="text"
+              class="form-input"
+              placeholder="e.g., Strawberry, Banana, Mint"
+            />
+          </div>
         </div>
 
-        <!-- Product Images -->
         <div class="form-section">
           <h3 class="section-title">
             <svg
@@ -155,15 +179,9 @@
           </h3>
 
           <div class="images-section">
-            <!-- Image Upload Area -->
-            <div
-              v-if="imagePreviews.length < 10"
-              class="upload-area"
-              @click="triggerFileInput"
-            >
+            <div v-if="imagePreviews.length < 10" class="upload-area">
               <input
                 id="images"
-                ref="fileInput"
                 type="file"
                 accept="image/*"
                 multiple
@@ -193,7 +211,6 @@
               </div>
             </div>
 
-            <!-- Image Previews -->
             <div v-if="imagePreviews.length > 0" class="image-previews">
               <div
                 v-for="(preview, index) in imagePreviews"
@@ -266,7 +283,6 @@
               </div>
             </div>
 
-            <!-- Upload Limit Message -->
             <div v-if="imagePreviews.length >= 10" class="upload-limit-message">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -284,7 +300,6 @@
           </div>
         </div>
 
-        <!-- Form Actions -->
         <div class="form-actions">
           <button type="button" class="btn btn-secondary" @click="resetForm">
             <svg
@@ -335,7 +350,6 @@
           </button>
         </div>
 
-        <!-- Messages -->
         <div v-if="error" class="message error">
           <svg
             class="message-icon"
@@ -375,7 +389,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, nextTick, onMounted } from "vue";
+import { defineComponent, reactive, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { createProduct, getCategories } from "../api";
 
@@ -383,7 +397,6 @@ export default defineComponent({
   name: "CreateProductView",
   setup() {
     const router = useRouter();
-    const fileInput = ref<HTMLInputElement>();
     const imagePreviews = ref<
       Array<{ url: string; file: File; name: string; size: number }>
     >([]);
@@ -395,6 +408,8 @@ export default defineComponent({
       description: "",
       price: 0,
       category: "",
+      flavours: "",
+      rating: 5,
     });
 
     const loading = ref(false);
@@ -408,10 +423,6 @@ export default defineComponent({
       } catch (err: any) {
         console.error("Failed to load categories:", err);
       }
-    };
-
-    const triggerFileInput = () => {
-      fileInput.value?.click();
     };
 
     const handleFileChange = (e: Event) => {
@@ -437,10 +448,8 @@ export default defineComponent({
         }
       });
 
-      // Reset file input
-      if (fileInput.value) {
-        fileInput.value.value = "";
-      }
+      // Clear the file input's value to allow re-uploading the same file
+      (e.target as HTMLInputElement).value = "";
     };
 
     const removeImage = (index: number) => {
@@ -469,12 +478,11 @@ export default defineComponent({
       form.description = "";
       form.price = 0;
       form.category = "";
+      form.flavours = "";
+      form.rating = 5;
       imagePreviews.value = [];
       error.value = "";
       success.value = false;
-      if (fileInput.value) {
-        fileInput.value.value = "";
-      }
     };
 
     const handleSubmit = async () => {
@@ -488,6 +496,11 @@ export default defineComponent({
         data.append("description", form.description);
         data.append("price", String(form.price));
         data.append("category", form.category);
+        data.append("rating", String(form.rating));
+        data.append(
+          "flavours",
+          JSON.stringify(form.flavours.split(",").map((s) => s.trim()))
+        );
 
         // Append all images
         imagePreviews.value.forEach((imagePreview, index) => {
@@ -519,12 +532,10 @@ export default defineComponent({
       loading,
       error,
       success,
-      fileInput,
       imagePreviews,
       categories,
       handleFileChange,
       handleSubmit,
-      triggerFileInput,
       removeImage,
       moveImage,
       formatFileSize,
@@ -535,6 +546,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* I've added a few lines to the existing styles. */
 .create-product-view {
   max-width: 100%;
 }
@@ -702,6 +714,7 @@ export default defineComponent({
   transition: all 0.2s ease;
   background: #f9fafb;
   margin-bottom: 1.5rem;
+  position: relative; /* Added to make position: absolute work on the child */
 }
 
 .upload-area:hover {
@@ -709,9 +722,15 @@ export default defineComponent({
   background: #f0f9ff;
 }
 
+/* This is the key change: we make the file input cover the entire area */
 .file-input {
-  display: none;
-  color: #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .upload-content {
@@ -719,6 +738,7 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  pointer-events: none; /* Prevents the inner content from blocking the click */
 }
 
 .upload-icon {

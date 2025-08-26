@@ -138,7 +138,7 @@
           </div>
         </div>
 
-        <!-- Pricing -->
+        <!-- Pricing and Details -->
         <div class="form-section">
           <h3 class="section-title">
             <svg
@@ -154,24 +154,53 @@
                 d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
               ></path>
             </svg>
-            Pricing
+            Pricing and Details
           </h3>
 
-          <div class="form-group">
-            <label for="price" class="form-label">Price ($) *</label>
-            <div class="price-input-wrapper">
-              <span class="currency-symbol">$</span>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="price" class="form-label">Price ($) *</label>
+              <div class="price-input-wrapper">
+                <span class="currency-symbol">$</span>
+                <input
+                  id="price"
+                  v-model.number="form.price"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  class="form-input price-input"
+                  placeholder="0.00"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="rating" class="form-label">Rating (1-5)</label>
               <input
-                id="price"
-                v-model.number="form.price"
+                id="rating"
+                v-model.number="form.rating"
                 type="number"
-                min="0"
-                step="0.01"
-                class="form-input price-input"
-                placeholder="0.00"
-                required
+                min="1"
+                max="5"
+                step="1"
+                class="form-input"
+                placeholder="Enter rating"
               />
             </div>
+          </div>
+
+          <div class="form-group">
+            <label for="flavours" class="form-label"
+              >Flavours (comma-separated)</label
+            >
+            <input
+              id="flavours"
+              v-model="form.flavours"
+              type="text"
+              class="form-input"
+              placeholder="e.g., Strawberry, Banana, Mint"
+            />
           </div>
         </div>
 
@@ -762,7 +791,7 @@ export default defineComponent({
   font-size: 1.125rem;
   font-weight: 600;
   color: #374151;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .current-images-grid {
